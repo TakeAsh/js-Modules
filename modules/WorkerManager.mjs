@@ -4,7 +4,7 @@
   #workers = [];
   #range = (max) => Array.from({ length: max }, (_, i) => (i));
   /**
-   * function as worker source
+   * Function as worker source
    * @param {() => void} fnc
    * @memberof WorkerManager
    */
@@ -14,7 +14,7 @@
       new Blob([`(${fnc})();`], { type: 'application/javascript' }));
   }
   /**
-   * function called by the worker while running.
+   * Function called by the worker while running.
    * @memberof WorkerManager
    */
   get reportProgress() {
@@ -25,7 +25,7 @@
     this.#reportProgress = fnc;
   }
   /**
-   * release resources
+   * Release resources
    * @memberof WorkerManager
    */
   dispose() {
@@ -35,13 +35,14 @@
     this.#workers = null;
   }
   /**
-   * create a Promise including Worker and start it
+   * Create a Promise including Worker and start it
    * @param {*} id Worker id
-   * @param {*} initialData Initial data for worker
+   * @param {*} initialData Part of initial data for worker
+   * @param {*} option Passed to each workers as unchanged.
    * @return {Promise} Promise including Worker
    * @memberof WorkerManager
    */
-  create(id, initialData) {
+  create(id, initialData, option) {
     return new Promise((resolve, reject) => {
       const worker = new Worker(this.#url);
       worker.reportProgress = this.#reportProgress;
@@ -65,25 +66,26 @@
         }
       );
       worker.addEventListener('error', reject);
-      worker.postMessage({ id: id, data: initialData });
+      worker.postMessage({ id: id, data: initialData, option: option, });
       this.#workers.push(worker);
     });
   }
   /**
-   * create workers from data and run them
-   * @param {Array} data array of initial data
-   * @param {number} threads
-   * @return {Promise} worker results
+   * Create workers from data and run them
+   * @param {Array} data Array of initial data. divided and each parts are passed to workers.
+   * @param {number} threads Number of threads
+   * @param {*} option Passed to each workers as unchanged.
+   * @return {Promise} Worker results
    * @memberof WorkerManager
    */
-  async run(data, threads) {
+  async run(data, threads, option) {
     const from = (i) => Math.ceil(data.length * i / threads);
     const divided = this.#range(threads).map((i) => data.slice(from(i), from(i + 1)));
     console.log(divided);
-    return await Promise.all(divided.map((part, i) => this.create(i, part)));
+    return await Promise.all(divided.map((part, i) => this.create(i, part, option)));
   }
   /**
-   * notify all workers that they should be cancelled
+   * Notify all workers that they should be cancelled
    * @memberof WorkerManager
    */
   cancelAll() {
