@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/take.css" />
+  <link rel="stylesheet" type="text/css" href="./Amazon.css" />
+  <title>Amazon Images</title>
+</head>
+
+<body>
+  <h1 id="top">Amazon Images</h1>
+  <div>
+    <div><input id="inputUrl" type="text" size="60" class="fitWidth" placeholder="URL" title="URL" autofocus></div>
+    <div>
+      <select id="selectSample" title="Samples" class="fitWidth">
+        <option value="">Samples</option>
+        <option value="B001EQ6A80">figma 初音ミク</option>
+        <option value="B002MZZ33K">ねんどろいどぷち ボーカロイド シリーズ01 BOX</option>
+        <option value="B0026RIRRS">figma ファイアボール ドロッセル</option>
+        <option value="B002H9WBNQ">ファイアボール ねんどろいど ドロッセル</option>
+        <option value="B002L16FZU">RVR-14 フェイ・イェン・ザ・ナイト DNA SIDE 1/100スケールプラスチックキット</option>
+        <option value="B0019JNTQS">BAYONETTA 特典 スペシャルサウンドトラック「RODIN'S SELECTION」付き</option>
+        <option value="B002SW3N16">BAYONETTA (特典無し)</option>
+        <option value="4775307614">大槍葦人画集 Chronicle LIMITED EDITION</option>
+        <option value="4480095268">数学文章作法 推敲編</option>
+        <option value="4065302579">超復刻版 タローマンかるた</option>
+        <option value="B01L74X162">ストライクウィッチーズ コンプリート Blu-ray BOX(初回生産限定版)</option>
+        <option value="4088825470">ゲーミングお嬢様 1</option>
+        <option value="B0BHWM3Z61">うる星やつら Blu-ray Disc BOX 1</option>
+      </select>
+    </div>
+    <div><button id="buttonCheck">Check</button></div>
+  </div>
+  <div id="divAmazonLink" class="amazonLink" title="Amazon Link">
+    ASIN
+  </div>
+  <div id="divResult">
+  </div>
+  <div class="panelIndex">
+    <ol id="olResult" class="default"></ol>
+    <p><a href="#top">Top</a></p>
+  </div>
+  <script type="module" src="./AmazonImages.js"></script>
+</body>
+
+</html>
