@@ -1,6 +1,28 @@
 ﻿import WorkerManager from '../modules/WorkerManager.mjs';
 import { downloadMedia } from '../modules/Util.mjs';
 
+class Progress {
+  static #count = 0;
+  static #isCancelled = false;
+  static init() {
+    this.#count = 0;
+    this.#isCancelled = false;
+  }
+  static report = (progress) => {
+    if (this.#isCancelled) { return; }
+    if (progress.title) {
+      console.log(progress);
+    }
+    divResult.textContent = `${Math.floor(100 * (++this.#count) / shots.length)}%`;
+  };
+  static cancel(message) {
+    if (!this.#isCancelled) {
+      divResult.textContent = message;
+    }
+    this.#isCancelled = true;
+  }
+}
+
 const uriNoImage = 'https://images-na.ssl-images-amazon.com/images/G/09/nav2/dp/no-image-no-ciu.gif';
 const fixShots = [
   { Name: 'Main', Key: 'MAIN' },
@@ -17,15 +39,19 @@ const threads = 48;
 const associateTag = 'takeash68k-22';
 const d = document;
 const buttonCheck = d.getElementById('buttonCheck');
+const buttonCancel = d.getElementById('buttonCancel');
 const inputUrl = d.getElementById('inputUrl');
 const divAmazonLink = d.getElementById('divAmazonLink');
 const divResult = d.getElementById('divResult');
 const olResult = d.getElementById('olResult');
 const selectSample = d.getElementById('selectSample');
+let wm = null;
 
 buttonCheck.addEventListener(
   'click',
   async (event) => {
+    buttonCheck.disabled = true;
+    buttonCancel.disabled = false;
     divResult.innerHTML = null;
     olResult.innerHTML = null;
     const asin = getAsin();
@@ -35,8 +61,19 @@ buttonCheck.addEventListener(
     }
     showAmazonLink(asin);
     const result = await scanShots(asin);
+    buttonCheck.disabled = false;
+    buttonCancel.disabled = true;
+    if (!result) { return; }
     console.log(result);
     showResult(asin, result);
+  }
+);
+buttonCancel.addEventListener(
+  'click',
+  (event) => {
+    if (!wm) { return; }
+    Progress.cancel('Cancelled');
+    wm.cancelAll();
   }
 );
 inputUrl.addEventListener(
@@ -112,7 +149,7 @@ function makeShots() {
 }
 
 async function scanShots(asin) {
-  const wm = new WorkerManager();
+  wm = new WorkerManager();
   wm.source = () => {
     const sizes = [
       { Name: 'Large', Key: 'RM' },
@@ -163,34 +200,30 @@ async function scanShots(asin) {
       }
     );
   };
-  let count = 0;
-  let isCancelled = false;
-  wm.reportProgress = (progress) => {
-    if (isCancelled) { return; }
-    if (progress.title) {
-      console.log(progress);
-    }
-    divResult.textContent = `${Math.floor(100 * (++count) / shots.length)}%`;
-  };
+  Progress.init();
+  wm.reportProgress = Progress.report;
   const result = await wm.run(shots, threads, { asin: asin })
     .catch((err) => {
+      Progress.cancel(err);
       wm.cancelAll();
-      isCancelled = true;
-      divResult.textContent = err;
     });
   wm.dispose();
-  return result.reduce(
-    (acc, cur) => acc.concat(cur.filter((shot) => shot.title)),
-    []
-  );
+  wm = null;
+  return !result
+    ? null
+    : result.reduce(
+      (acc, cur) => acc.concat(cur.filter((shot) => shot.title)),
+      []
+    );
 }
 
 function showResult(asin, result) {
   divResult.innerHTML = null;
-  if (!result.length) {
+  if (!result || !result.length) {
     const img = d.createElement('img');
     img.src = uriNoImage;
     divResult.appendChild(img);
+    return;
   }
   result.forEach((shot, index) => {
     const h2 = d.createElement('h2');
