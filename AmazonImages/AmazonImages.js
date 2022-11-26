@@ -58,6 +58,26 @@ selectSample.addEventListener(
   }
 );
 
+(() => {
+  if (!location.search.includes('URL=')) { return; }
+  const decode = (x) => decodeURIComponent(x).trim();
+  const query = location.search.split(/[\?&]/)
+    .filter((pair) => pair)
+    .map((pair) => pair.split(/=/))
+    .reduce(
+      (acc, cur) => {
+        acc[decode(cur[0])] = !cur[1]
+          ? ''
+          : decode(cur[1]);
+        return acc;
+      },
+      {}
+    );
+  console.log(query);
+  inputUrl.value = query.URL;
+  buttonCheck.click();
+})();
+
 function getAsin() {
   const m = d.getElementById('inputUrl').value
     .match(/\b(dp|ASIN|product|product-description|samples)[\/=]([0-9A-Z]+)/);
