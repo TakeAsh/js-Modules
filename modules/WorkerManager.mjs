@@ -1,4 +1,9 @@
-﻿export default class WorkerManager {
+﻿/**
+ * Helper class for Web Worker.
+ * @export
+ * @class WorkerManager
+ */
+export default class WorkerManager {
   #url = null;
   #reportProgress = (progress) => { };
   #workers = [];

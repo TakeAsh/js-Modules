@@ -1,5 +1,11 @@
 ﻿const d = document;
 
+/**
+ * Get nodes specified by XPath as array instead of iterator.
+ * @param {string} xpath
+ * @param {node} context
+ * @return {node[]} 
+ */
 function getNodesByXpath(xpath, context) {
   const itr = d.evaluate(
     xpath,
@@ -16,6 +22,12 @@ function getNodesByXpath(xpath, context) {
   return nodes;
 }
 
+/**
+ * Download media from cross-origin site.
+ * This function will fail when cross-origin site doesn't allow access.
+ * @param {string} uri
+ * @param {string} filename
+ */
 async function downloadMedia(uri, filename) {
   if (!filename) {
     filename = (uri.match(/([^/]+)$/))[1];
