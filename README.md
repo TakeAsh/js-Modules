@@ -3,11 +3,14 @@
 
 ## Util
 
-### getNodesByXpath
+### getNodesByXpath()
 - Get nodes specified by XPath as array instead of iterator.
 
-### downloadMedia
+### downloadMedia()
 - Download media from cross-origin site.
+
+### getQuery()
+- Convert location.search into a hash.
 
 ## WorkerManager
 - Helper class for Web Worker.

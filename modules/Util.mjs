@@ -47,4 +47,25 @@ async function downloadMedia(uri, filename) {
   window.URL.revokeObjectURL(dataUrl);
 }
 
-export { getNodesByXpath, downloadMedia };
+/**
+ * Convert location.search into a hash.
+ * @return {*} Query as a hash. Null when location.search is not set.
+ */
+function getQuery() {
+  if (!location.search) { return null; }
+  const decode = (x) => decodeURIComponent(x).trim();
+  return location.search.split(/[\?&]/)
+    .filter((pair) => pair)
+    .map((pair) => pair.split(/=/))
+    .reduce(
+      (acc, cur) => {
+        acc[decode(cur[0])] = !cur[1]
+          ? ''
+          : decode(cur[1]);
+        return acc;
+      },
+      {}
+    );
+}
+
+export { getNodesByXpath, downloadMedia, getQuery };

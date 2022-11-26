@@ -1,5 +1,5 @@
 ﻿import WorkerManager from '../modules/WorkerManager.mjs';
-import { downloadMedia } from '../modules/Util.mjs';
+import { downloadMedia, getQuery } from '../modules/Util.mjs';
 
 class Progress {
   static #count = 0;
@@ -96,20 +96,8 @@ selectSample.addEventListener(
 );
 
 (() => {
-  if (!location.search.includes('URL=')) { return; }
-  const decode = (x) => decodeURIComponent(x).trim();
-  const query = location.search.split(/[\?&]/)
-    .filter((pair) => pair)
-    .map((pair) => pair.split(/=/))
-    .reduce(
-      (acc, cur) => {
-        acc[decode(cur[0])] = !cur[1]
-          ? ''
-          : decode(cur[1]);
-        return acc;
-      },
-      {}
-    );
+  const query = getQuery();
+  if (!query || !query.URL) { return; }
   console.log(query);
   inputUrl.value = query.URL;
   buttonCheck.click();
