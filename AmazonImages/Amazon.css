@@ -20,3 +20,8 @@
   margin: 0.5em;
   padding: 0.2em;
 }
+
+.stickyTop {
+  position: sticky;
+  top: 0;
+}

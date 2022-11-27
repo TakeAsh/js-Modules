@@ -214,8 +214,12 @@ function showResult(asin, result) {
     return;
   }
   result.forEach((shot, index) => {
+    const divShot = d.createElement('div');
+    divShot.id = shot.title;
+    divResult.appendChild(divShot);
     const h2 = d.createElement('h2');
-    h2.id = shot.title;
+    h2.classList.add('stickyTop');
+    divShot.appendChild(h2);
     const buttonPrev = d.createElement('button');
     buttonPrev.textContent = '<';
     buttonPrev.title = 'Prev';
@@ -244,12 +248,11 @@ function showResult(asin, result) {
     h2.appendChild(buttonDownload);
     h2.appendChild(d.createTextNode(' '));
     h2.appendChild(d.createTextNode(shot.title));
-    divResult.appendChild(h2);
     const img = d.createElement('img');
     img.title = shot.title;
     img.src = shot.uri;
     img.classList.add('fitWidth');
-    divResult.appendChild(img);
+    divShot.appendChild(img);
     const li = d.createElement('li');
     const aToC = d.createElement('a');
     aToC.href = `#${shot.title}`;
