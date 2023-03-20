@@ -12,9 +12,40 @@
   }
 }
 
+.LightMode {
+  color: #000000;
+  background-color: #d0d0f0;
+}
+
+.DarkMode {
+  color: #e4e4e4;
+  background-color: #2f2f0f;
+}
+
+.BlueMode {
+  color: #e4e4e4;
+  background-color: #2020ff;
+}
+
+.GreenMode {
+  color: #00e000;
+  background-color: #2f2f0f;
+}
+
+.AmberMode {
+  color: #ffbf00;
+  background-color: #2f2f0f;
+}
+
 #clock {
   margin: 50vh auto 0;
   transform: translateY(-50%);
   text-align: center;
   font-size: 18vw;
+}
+
+#selectColorMode {
+  position: fixed;
+  top: 0;
+  right: 0;
 }
