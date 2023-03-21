@@ -1,5 +1,10 @@
-﻿const d = document;
-const keyColorMode = 'ColorMode';
+﻿import { AutoSaveConfig } from '../modules/AutoSaveConfig.mjs';
+
+const d = document;
+const config = new AutoSaveConfig(
+  { ColorMode: 'System', },
+  'Clock'
+);
 const clock = d.getElementById('clock');
 let prevSecond = null;
 setInterval(showTime, 100);
@@ -10,7 +15,7 @@ selectColorMode.addEventListener(
   'change',
   (event) => { setColorMode(selectColorMode.value); }
 );
-setColorMode(localStorage.getItem(keyColorMode));
+setColorMode(config.ColorMode);
 
 function showTime(event) {
   const now = new Date();
@@ -31,8 +36,7 @@ function showTime(event) {
 
 function setColorMode(color) {
   color = color || 'System';
-  localStorage.setItem(keyColorMode, color);
-  selectColorMode.value = color;
+  config.ColorMode = selectColorMode.value = color;
   colorModes.forEach(color2 => { d.body.classList.remove(`${color2}Mode`); });
   if (color == 'System') {
     // use System Light/Dark mode

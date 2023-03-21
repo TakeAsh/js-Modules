@@ -1,6 +1,12 @@
 # js-Modules
 - Javascript modules and their samples
 
+## AutoSaveConfig
+- This class saves the properties in localStorage automatically when they are set.
+- This save automatically when first level properties are set (ex. `conf.prop1 = x;` ), but this don't save when second level properties are set (ex. `conf.prop1.prop2 = x;` ).
+- Sample: [Clock](https://raw.githack.com/TakeAsh/js-Modules/main/Clock/)<br>
+Simple digital clock. It can change color mode.
+
 ## Util
 
 ### getNodesByXpath()
