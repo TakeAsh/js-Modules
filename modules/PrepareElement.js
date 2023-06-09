@@ -6,11 +6,13 @@ const d = document;
  * Create HTMLElement with specified attributes, CSS classes, CSS styles, dataset, event handlers, and child elements.
  *
  * @param {*} tagInfo - The object that has HTML element definition.
+ * @param {Document} doc - The document that the created HTMLElement belong to.
  * @return {HTMLElement} created HTMLElement
  */
-function prepareElement(tagInfo) {
+function prepareElement(tagInfo, doc) {
+  doc = doc || d;
   if (!tagInfo.tag) { return; }
-  const elm = d.createElement(tagInfo.tag);
+  const elm = doc.createElement(tagInfo.tag);
   delete tagInfo.tag;
   if (tagInfo.classes) {
     tagInfo.classes.forEach((name) => {
@@ -33,7 +35,7 @@ function prepareElement(tagInfo) {
   }
   if (tagInfo.children) {
     tagInfo.children
-      .forEach((child) => { elm.appendChild(prepareElement(child)); });
+      .forEach((child) => { elm.appendChild(prepareElement(child, doc)); });
     delete tagInfo.children;
   }
   Object.assign(elm, tagInfo);
