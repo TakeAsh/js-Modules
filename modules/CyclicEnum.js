@@ -4,6 +4,7 @@
     args.forEach((key, index) => Object.defineProperty(this, key, {
       value: this[index] = Object.freeze({
         toString: () => key,
+        toJSON: () => key,
         index: index,
         next: () => this[(index + 1) % args.length],
       }),
