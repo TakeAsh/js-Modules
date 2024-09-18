@@ -28,7 +28,7 @@ class AutoSaveConfig {
   }
 
   toProxy(value) {
-    if (value === null || typeof value !== 'object') { return value; }
+    if (value === null || typeof value !== 'object' || Object.isFrozen(value)) { return value; }
     Object.keys(value).forEach((p) => { value[p] = this.toProxy(value[p]); });
     return new Proxy(value, this.handler);
   }
