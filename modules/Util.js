@@ -1,15 +1,13 @@
-﻿const d = document;
-
-/**
+﻿/**
  * Get nodes specified by XPath as array instead of iterator.
  * @param {string} xpath
  * @param {node} context
  * @return {node[]} 
  */
 function getNodesByXpath(xpath, context) {
-  const itr = d.evaluate(
+  const itr = document.evaluate(
     xpath,
-    context || d,
+    context || document,
     null,
     XPathResult.ORDERED_NODE_ITERATOR_TYPE,
     null
@@ -40,7 +38,7 @@ async function downloadMedia(uri, filename) {
   });
   const blob = await response.blob();
   const dataUrl = window.URL.createObjectURL(blob);
-  const link = d.createElement('a');
+  const link = document.createElement('a');
   link.download = filename;
   link.href = dataUrl;
   link.click();
@@ -71,5 +69,3 @@ function getQuery() {
 function sleep(ms, resolve) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-
-export { getNodesByXpath, downloadMedia, getQuery, sleep };
