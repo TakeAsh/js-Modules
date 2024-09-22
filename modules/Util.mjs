@@ -72,4 +72,8 @@ function sleep(ms, resolve) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export { getNodesByXpath, downloadMedia, getQuery, sleep };
+function quotemeta(text) {
+  return text.trim().replace(/([^0-9A-Za-z_])/g, '\\$1')
+};
+
+export { getNodesByXpath, downloadMedia, getQuery, sleep, quotemeta };

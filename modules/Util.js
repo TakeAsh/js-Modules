@@ -69,3 +69,7 @@ function getQuery() {
 function sleep(ms, resolve) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+function quotemeta(text) {
+  return text.trim().replace(/([^0-9A-Za-z_])/g, '\\$1')
+};
