@@ -76,4 +76,19 @@ function quotemeta(text) {
   return text.trim().replace(/([^0-9A-Za-z_])/g, '\\$1')
 };
 
-export { getNodesByXpath, downloadMedia, getQuery, sleep, quotemeta };
+/**
+ * Returns a number whose value is limited to the given range.
+ * @param {Number} num The number should be limited
+ * @param {Number} min The lower boundary of the output range
+ * @param {Number} max The upper boundary of the output range
+ * @returns A number in the range [min, max]
+ * @type Number
+ * [What's the most elegant way to cap a number to a segment? - Stack Overflow]{@link https://stackoverflow.com/q/11409895}
+ */
+function clamp(num, min, max) {
+  return num <= min ? min :
+    num >= max ? max :
+      num;
+}
+
+export { getNodesByXpath, downloadMedia, getQuery, sleep, quotemeta, clamp };
