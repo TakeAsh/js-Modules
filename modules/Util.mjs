@@ -91,4 +91,18 @@ function clamp(num, min, max) {
       num;
 }
 
-export { getNodesByXpath, downloadMedia, getQuery, sleep, quotemeta, clamp };
+function watchTarget(callback, target = null) {
+  if (!callback || typeof callback != 'function') {
+    console.error('Invalid callback');
+    return null;
+  }
+  target = target || d.body;
+  callback(target);
+  const observer = new MutationObserver(
+    (mutations) => mutations.forEach(
+      (mutation) => callback(mutation.target)));
+  observer.observe(target, { childList: true, subtree: true, });
+  return observer;
+}
+
+export { getNodesByXpath, downloadMedia, getQuery, sleep, quotemeta, clamp, watchTarget };
