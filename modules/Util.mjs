@@ -91,10 +91,15 @@ function clamp(num, min, max) {
       num;
 }
 
+/**
+ * Applies callback when target is changed, and returns MutationObserver.
+ * @param {function} callback The function called when target is changed.
+ * @param {Node} [target=null] The node to be watched, if null, watch document.body .
+ * @return {MutationObserver} A new MutationObserver object, configured to call the specified callback when DOM mutations occur.
+ */
 function watchTarget(callback, target = null) {
   if (!callback || typeof callback != 'function') {
-    console.error('Invalid callback');
-    return null;
+    throw 'Invalid callback';
   }
   target = target || d.body;
   callback(target);
