@@ -3,8 +3,9 @@
 
 ## AutoSaveConfig
 - This class saves the properties in localStorage automatically when they are set.
+- It allow an instance of a class as a property, when the instance must be rebuilded by "assign" method with its "toJSON" output object.
 - Sample: [Clock](https://raw.githack.com/TakeAsh/js-Modules/main/Clock/)<br>
-Simple digital clock. It can change color mode.
+Simple digital clock. It can change color.
 
 ## Util
 
