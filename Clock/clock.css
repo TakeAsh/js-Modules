@@ -12,31 +12,6 @@
   }
 }
 
-.LightMode {
-  color: #000000;
-  background-color: #d0d0f0;
-}
-
-.DarkMode {
-  color: #e4e4e4;
-  background-color: #2f2f0f;
-}
-
-.BlueMode {
-  color: #e4e4e4;
-  background-color: #2020ff;
-}
-
-.GreenMode {
-  color: #00e000;
-  background-color: #2f2f0f;
-}
-
-.AmberMode {
-  color: #ffbf00;
-  background-color: #2f2f0f;
-}
-
 #clock {
   margin: 50vh auto 0;
   transform: translateY(-50%);
@@ -44,8 +19,25 @@
   font-size: 18vw;
 }
 
-#selectColorMode {
+#panelMenu {
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 0em;
+  right: 0em;
+  display: grid;
+}
+
+#selectColor {
+  width: 100%;
+}
+
+#panelEdit {
+  display: grid;
+}
+
+#panelEdit>input[type="text"] {
+  width: 6em;
+}
+
+#panelEdit>input[type="color"] {
+  width: 100%;
 }

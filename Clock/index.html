@@ -12,14 +12,21 @@
 
 <body>
   <p id="clock"></p>
-  <select id="selectColorMode" title="Color Mode">
-    <option>System</option>
-    <option>Light</option>
-    <option>Dark</option>
-    <option>Blue</option>
-    <option>Green</option>
-    <option>Amber</option>
-  </select>
+  <details id="panelMenu">
+    <summary>Menu</summary>
+    <select id="selectColor" title="Color">
+    </select>
+    <fieldset>
+      <legend>Edit</legend>
+      <div id="panelEdit">
+        <input id="inputName" type="text" name="Name" placeholder="Name" title="Name">
+        <input id="inputText" type="color" name="Text" title="Text">
+        <input id="inputBackground" type="color" name="Background" title="Background">
+        <button id="buttonAddColor">Add</button>
+        <button id="buttonRemoveColor">Remove</button>
+      </div>
+    </fieldset>
+  </details>
 </body>
 
 </html>
