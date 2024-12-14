@@ -37,6 +37,7 @@ class AutoSaveConfig {
 
   static assign(dest, src) {
     for (const prop in dest) {
+      if (!src.hasOwnProperty(prop)) { continue; }
       if (dest[prop] !== null && typeof dest[prop].assign == 'function') {
         dest[prop].assign(src[prop]);
       } else {
