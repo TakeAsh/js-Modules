@@ -23,6 +23,12 @@ class AutoSaveConfig {
         localStorage.setItem(this.nameInStorage, JSON.stringify(this.config));
         return true;
       },
+      deleteProperty: (obj, prop) => {
+        if (!obj.hasOwnProperty(prop)) { return false; }
+        delete obj[prop];
+        localStorage.setItem(this.nameInStorage, JSON.stringify(this.config));
+        return true;
+      },
     };
     const savedConfig = JSON.parse(localStorage.getItem(this.nameInStorage)) || {};
     AutoSaveConfig.assign(this.config, savedConfig);
