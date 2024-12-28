@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日本の祝日</title>
+  <link rel="stylesheet" type="text/css" href="JpnHolidays.css" />
+  <script type="module" src="./JpnHolidays.js"></script>
+</head>
+
+<body>
+  <h1>日本の祝日</h1>
+
+  <table class="sticky_table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>日付</th>
+        <th>曜日</th>
+        <th>名前</th>
+        <th>種類</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th class="alignCenter" colspan="5">取得中...</th>
+      </tr>
+    </tbody>
+  </table>
+
+  <details id="panelTools">
+    <summary id="titleTools">&#x1F9F0;</summary>
+    <div id="bodyTools">
+      <fieldset>
+        <legend>表示</legend>
+        <div class="displayGrid">
+          <span>
+            <button id="buttonPrevYear" type="button">-</button>
+            <span id="spanYear"></span>年
+            <button id="buttonNextYear" type="button">+</button>
+          </span>
+          <label>
+            <input id="checkShowTraditional" type="checkbox">
+            祭日
+          </label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>クリップボード</legend>
+        <button id="buttonCopy" class="width100" type="button">コピー</button>
+      </fieldset>
+      <fieldset>
+        <legend>元データ</legend>
+        <div class="displayGrid">
+          <a href="https://calendar.google.com/calendar/embed?src=ja.japanese%23holiday%40group.v.calendar.google.com&ctz=Asia%2FTokyo"
+            target="_blank">日本の祝日</a>
+          <a href="https://calendar.google.com/calendar/ical/ja.japanese%23holiday%40group.v.calendar.google.com/public/basic.ics"
+            target="_blank">iCal</a>
+        </div>
+      </fieldset>
+    </div>
+  </details>
+</body>
+
+</html>

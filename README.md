@@ -7,6 +7,17 @@
 - Sample: [Clock](https://raw.githack.com/TakeAsh/js-Modules/main/Clock/)<br>
 Simple digital clock. It can change color.
 
+## Clipboard
+- Sample: [JpnHolidays](https://raw.githack.com/TakeAsh/js-Modules/main/JpnHolidays/)<br>
+Show Japanese holidays.
+
+### copyToClipboard()
+- Copy text to clipboard.
+- `execCommand` method is no longer recommended.
+
+### writeToClipboard()
+- Write text to clipboard.
+
 ## Util
 
 ### getNodesByXpath()

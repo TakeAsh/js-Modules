@@ -1,0 +1,180 @@
+﻿@media (prefers-color-scheme: light) {
+  body {
+    color: #000000;
+    background-color: #d0d0f0;
+  }
+
+  a:link {
+    color: #0000ee;
+  }
+
+  a:visited {
+    color: #551a8b;
+  }
+
+  a:active {
+    color: #ff0000;
+  }
+
+  a:hover {
+    color: #ff0000;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    background-color: #f0f0ff;
+  }
+
+  table {
+    border: 2px solid #000000;
+  }
+
+  thead {
+    border: 2px solid #000000;
+  }
+
+  th {
+    background-color: #f0f0f0;
+  }
+
+  #bodyTools {
+    background-color: #f0f0ff;
+  }
+
+  .national {
+    background-color: #ffc0c0;
+  }
+
+  .traditional {
+    background-color: #c0ffc0;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #e4e4e4;
+    background-color: #2f2f0f;
+  }
+
+  a:link {
+    color: #c0c0ff;
+  }
+
+  a:visited {
+    color: #e0c0ff;
+  }
+
+  a:active {
+    color: #ff0000;
+  }
+
+  a:hover {
+    color: #ff0000;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    background-color: #3f3f50;
+  }
+
+  table {
+    border: 2px solid #e4e4e4;
+  }
+
+  thead {
+    border: 2px solid #e4e4e4;
+  }
+
+  th {
+    background-color: #3f3f50;
+  }
+
+  #bodyTools {
+    background-color: #3f3f50;
+  }
+
+  .national {
+    background-color: #a04040;
+  }
+
+  .traditional {
+    background-color: #40a040;
+  }
+}
+
+table {
+  overflow-wrap: break-word;
+  border-collapse: collapse;
+}
+
+th {
+  border: 1px solid;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+}
+
+td {
+  border: 1px solid;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+}
+
+#panelTools {
+  position: fixed;
+  right: 0em;
+  top: 0em;
+  padding: 4px;
+  z-index: 5;
+}
+
+#titleTools {
+  text-align: right;
+}
+
+#bodyTools {
+  display: grid;
+  overflow: scroll;
+}
+
+.sticky_table thead th {
+  /* 縦スクロール時に固定する */
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  /* tbody内のセルより手前に表示する */
+  z-index: 1;
+}
+
+.sticky_table thead th:first-child {
+  /* ヘッダー行内の他のセルより手前に表示する */
+  z-index: 2;
+}
+
+.sticky_table th:first-child {
+  /* 横スクロール時に固定する */
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+}
+
+.alignRight {
+  text-align: right;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.width100 {
+  width: 100%;
+}
+
+.displayGrid {
+  display: grid;
+}
