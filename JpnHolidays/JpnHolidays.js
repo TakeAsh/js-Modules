@@ -11,14 +11,18 @@ const settings = new AutoSaveConfig({
 const d = document;
 const tbody = d.querySelector('tbody');
 let year = (new Date()).getFullYear();
-const headers = ['#', '日付', '曜日', '名前', '種類'];
-const filteredData = [];
+const filteredData = [['#', '日付', '曜日', '名前', '種類']];
 const response = await fetch(uriJpnHolidays, { method: 'GET', mode: 'cors', });
 const icalRaw = await response.text();
 const events = new ICAL.Component(ICAL.parse(icalRaw))
   .getAllSubcomponents('vevent')
-  .map(vevent => new ICAL.Event(vevent))
-  .sort((a, b) => a.startDate.compare(b.startDate));
+  .map(vevent => {
+    const event = new ICAL.Event(vevent);
+    event.description = event.description.replace(/\s[\s\S]*$/, '');
+    event.startDateStr = event.startDate.toString();
+    event.dayOfWeek = dayOfWeeks[event.startDate.dayOfWeek() - 1];
+    return event;
+  }).sort((a, b) => a.startDate.compare(b.startDate));
 init();
 showCalendar();
 
@@ -48,30 +52,27 @@ function init() {
 
 function showCalendar() {
   tbody.innerHTML = null;
-  filteredData.length = 0;
-  filteredData.push(headers);
-  let index = 0;
+  filteredData.length = 1;
   events.filter(event => event.startDate.year == year)
-    .filter(event => settings.ShowTraditional || event.description.startsWith('祝日'))
-    .forEach(event => {
-      const desc = event.description.replace(/\s[\s\S]*$/, '');
+    .filter(event => settings.ShowTraditional || event.description == '祝日')
+    .forEach((event, index) => {
       tbody.appendChild(prepareElement({
         tag: 'tr',
-        classes: [(desc == '祝日' ? 'national' : 'traditional')],
+        classes: [(event.description == '祝日' ? 'national' : 'traditional')],
         children: [
           {
             tag: 'td',
             classes: ['alignRight'],
-            textContent: ++index,
+            textContent: index + 1,
           },
           {
             tag: 'td',
-            textContent: event.startDate.toString(),
+            textContent: event.startDateStr,
           },
           {
             tag: 'td',
             classes: ['alignCenter'],
-            textContent: toDayOfWeek(event),
+            textContent: event.dayOfWeek,
           },
           {
             tag: 'td',
@@ -79,20 +80,16 @@ function showCalendar() {
           },
           {
             tag: 'td',
-            textContent: desc,
+            textContent: event.description,
           },
         ],
       }));
       filteredData.push([
-        index,
-        event.startDate.toString(),
-        toDayOfWeek(event),
+        index + 1,
+        event.startDateStr,
+        event.dayOfWeek,
         event.summary,
-        desc
+        event.description,
       ]);
     });
-}
-
-function toDayOfWeek(event) {
-  return dayOfWeeks[event.startDate.dayOfWeek() - 1];
 }
