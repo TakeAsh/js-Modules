@@ -1,0 +1,15 @@
+﻿#sampleBernoulli {
+  display: grid;
+}
+
+.lamp {
+  text-align: center;
+  margin: 0.5em;
+  padding: 1em;
+}
+
+.lamp>span {
+  color: #000000;
+  background-color: #ffffff;
+  padding: 4px;
+}
