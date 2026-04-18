@@ -110,4 +110,40 @@ function watchTarget(callback, target = null) {
   return observer;
 }
 
-export { getNodesByXpath, downloadMedia, getQuery, sleep, quotemeta, clamp, watchTarget };
+/**
+ * Add 'LongPress' event listener to element.
+ * Call func after msec.
+ * @param {HTMLElement} elm
+ * @param {function} func
+ * @param {number} msec
+ */
+function addLongPressListener(elm, func, msec) {
+  let timerId = 0;
+  const start = () => {
+    if (timerId) { return; }
+    timerId = setTimeout(
+      () => {
+        timerId = 0;
+        func();
+      },
+      msec
+    );
+  };
+  const cancel = () => {
+    clearTimeout(timerId);
+    timerId = 0;
+  };
+  [
+    'pointerdown', 'touchstart',
+  ].forEach((event) => {
+    elm.addEventListener(event, start);
+  });
+  [
+    'pointercancel', 'pointerup', 'pointerleave',
+    'touchcancel', 'touchend',
+  ].forEach((event) => {
+    elm.addEventListener(event, cancel);
+  });
+}
+
+export { getNodesByXpath, downloadMedia, getQuery, sleep, quotemeta, clamp, watchTarget, addLongPressListener };
