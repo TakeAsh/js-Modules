@@ -1,4 +1,4 @@
-import { CyclicEnum } from '../modules/CyclicEnum.mjs';
+﻿import { CyclicEnum } from '../modules/CyclicEnum.mjs';
 import { AutoSaveConfig } from '../modules/AutoSaveConfig.mjs';
 import { prepareElement } from '../modules/PrepareElement.mjs';
 
