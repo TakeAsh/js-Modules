@@ -1,0 +1,9 @@
+details fieldset>div {
+  display: grid;
+}
+
+#Log {
+  margin: 0.5em;
+  width: 100%;
+  height: 10em;
+}
