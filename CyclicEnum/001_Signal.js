@@ -2,12 +2,16 @@
 import { prepareElement } from '../modules/PrepareElement.mjs';
 
 const d = document;
+const elmLog = d.getElementById('Log');
 
 const Signal = new CyclicEnum('Green', 'Yellow', 'Red');
 const toColor = (s) => s == Signal.Green ? '#00ff00' :
   s == Signal.Yellow ? '#ffff00' :
     s == Signal.Red ? '#ff0000' :
       null;
+elmLog.value += '# Signal\n'
+elmLog.value += 'new CyclicEnum(\'Green\', \'Yellow\', \'Red\')\n';
+elmLog.value += `JSON.stringify() => ${JSON.stringify(Signal)}\n`;
 
 const divMain = d.getElementById('Main');
 
@@ -23,7 +27,7 @@ items.forEach(item => divMain.appendChild(item));
 
 setInterval(() => {
   items.forEach(item => {
-    item.style.backgroundColor =
-      toColor(item.dataset.signal = Signal[item.dataset.signal].next());
+    const signal = Signal[item.dataset.signal].next();
+    item.style.backgroundColor = toColor(item.dataset.signal = signal);
   });
 }, 1000);
