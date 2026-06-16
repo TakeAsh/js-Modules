@@ -8,21 +8,16 @@
       if (m) {
         name = m.groups.name;
         const tmp = JSON.parse(m.groups.value);
-        value = tmp === null ? {
-          [Symbol.toPrimitive](hint) {
-            return hint === 'number' ? 0 :
-              hint === 'string' ? name :
-                null;
-          },
-        } :
-          typeof tmp == 'number' || typeof tmp == 'boolean' ? {
+        value = tmp === Object(tmp)
+          ? tmp // Object
+          : {   // Primitive
             [Symbol.toPrimitive](hint) {
-              return hint === 'number' ? tmp :
+              return hint === 'number' ? Number(tmp) :
                 hint === 'string' ? name :
                   tmp;
             },
-          } :
-            tmp;
+            valueOf: () => tmp,
+          };
       }
       Object.assign(value, {
         toString: () => name,
