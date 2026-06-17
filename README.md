@@ -22,7 +22,7 @@ Show Japanese holidays.
 - Sample
   - [001_Signal](https://raw.githack.com/TakeAsh/js-Modules/main/CyclicEnum/001_Signal.html)<br>It changes `Green` -> `Yellow` -> `Red` -> `Green` -> ...
   - [002_Settings](https://raw.githack.com/TakeAsh/js-Modules/main/CyclicEnum/002_Settings.html)<br>CyclicEnum is used with `AutoSaveConfig`.
-  - [003_Attribute](https://raw.githack.com/TakeAsh/js-Modules/main/CyclicEnum/003_Attribute.html)<br>each EnunItems have its own attributes and common methods.
+  - [003_Attribute](https://raw.githack.com/TakeAsh/js-Modules/main/CyclicEnum/003_Attribute.html)<br>each EnumItems have its own attributes and common methods.
   - [004_Primitive](https://raw.githack.com/TakeAsh/js-Modules/main/CyclicEnum/004_Primitive.html)<br>EnumItems have primitive values.
 
 ## Util
