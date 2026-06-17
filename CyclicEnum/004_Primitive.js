@@ -51,7 +51,10 @@ elmLog.value += test([
 ]);
 
 elmLog.value += '\n';
-const defStatus = () => new CyclicEnum('Undef:null', 'Off:false', 'On:true',);
+const defStatus = () => new CyclicEnum(
+  'Undef:null', 'Off:false', 'On:true',
+  'bool', function() { return Boolean(this.valueOf()); },
+);
 const Status = defStatus();
 elmLog.value += showDefinition(
   'Status (Boolean() does not work as expected. Use +(unary plus operator) instead.)',
@@ -68,6 +71,7 @@ elmLog.value += test([
   { input: () => Boolean(Status.Undef.valueOf()), expected: false },
   { input: () => +Status.Undef, expected: 0 },
   { input: () => Boolean(+Status.Undef), expected: false },
+  { input: () => Status.Undef.bool(), expected: false },
   { input: () => String(Status.Off), expected: 'Off' },
   { input: () => Number(Status.Off), expected: 0 },
   { input: () => Boolean(Status.Off), expected: false },
@@ -76,6 +80,7 @@ elmLog.value += test([
   { input: () => Status.Off.valueOf(), expected: false },
   { input: () => +Status.Off, expected: 0 },
   { input: () => Boolean(+Status.Off), expected: false },
+  { input: () => Status.Off.bool(), expected: false },
   { input: () => String(Status.On), expected: 'On' },
   { input: () => Number(Status.On), expected: 1 },
   { input: () => Boolean(Status.On), expected: true },
@@ -84,6 +89,7 @@ elmLog.value += test([
   { input: () => Status.On.valueOf(), expected: true },
   { input: () => +Status.On, expected: 1 },
   { input: () => Boolean(+Status.On), expected: true },
+  { input: () => Status.On.bool(), expected: true },
   { input: () => Status.Undef == Status.Undef, expected: true },
   { input: () => Status.Undef == Status.Off, expected: false },
   { input: () => Status.Undef == Status.On, expected: false },
