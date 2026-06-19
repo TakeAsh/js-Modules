@@ -6,15 +6,15 @@ const d = document;
 const elmMain = d.getElementById('Main');
 const elmLog = d.getElementById('Log');
 
-const defGetter = () => new CyclicEnum(
-  'Open',
-  'Dragon:{"Color":"#ff0000", "Hand":true, "Foot":true}',
-  'Liger:{"Color":"#00ffff", "Hand":false, "Foot":true}',
-  'Poseidon:{"Color":"#ffff00", "Hand":true, "Foot":false}',
-  'ability', function() {
+const defGetter = () => new CyclicEnum({
+  Open: {},
+  Dragon: { Color: "#ff0000", Hand: true, Foot: true },
+  Liger: { Color: "#00ffff", Hand: false, Foot: true },
+  Poseidon: { Color: "#ffff00", Hand: true, Foot: false },
+  ability: function() {
     return `${this.Hand ? '&#x1f9be;' : '-'}${this.Foot ? '&#x1f9bf;' : '-'}`;
   },
-);
+});
 const Getter = defGetter();
 Getter.prototypeOfItem.nameAndAbility = function() { return `${this}:${this.ability()}`; };
 console.log(Getter);

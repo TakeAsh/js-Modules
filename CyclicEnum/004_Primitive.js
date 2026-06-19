@@ -1,4 +1,4 @@
-import { CyclicEnum } from '../modules/CyclicEnum.mjs';
+﻿import { CyclicEnum } from '../modules/CyclicEnum.mjs';
 import { test } from '../modules/UnitTest.mjs';
 
 const d = document;
@@ -6,7 +6,7 @@ const elmLog = d.getElementById('Log');
 
 elmLog.value += '# Primitive\n\n';
 
-const defMyMath = () => new CyclicEnum('Zero:0', 'Two:2', 'Pi:3.141592',);
+const defMyMath = () => new CyclicEnum({ Zero: 0, Two: 2, Pi: 3.141592, });
 const MyMath = defMyMath();
 elmLog.value += showDefinition('MyMath', defMyMath);
 elmLog.value += '\n';
@@ -51,10 +51,10 @@ elmLog.value += test([
 ]);
 
 elmLog.value += '\n';
-const defStatus = () => new CyclicEnum(
-  'Undef:null', 'Off:false', 'On:true',
-  'bool', function() { return Boolean(this.valueOf()); },
-);
+const defStatus = () => new CyclicEnum({
+  Undef: null, Off: false, On: true,
+  bool: function() { return Boolean(this.valueOf()); },
+});
 const Status = defStatus();
 elmLog.value += showDefinition(
   'Status (Boolean() does not work as expected. Use +(unary plus operator) instead.)',

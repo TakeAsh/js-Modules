@@ -1,48 +1,64 @@
 ﻿class CyclicEnum extends Array {
+  #enumItem = {};
+
+  #addItemMethod(name, func) {
+    Object.defineProperty(this.#enumItem, name, {
+      value: func,
+      enumerable: false,
+    });
+  }
+
+  #addItem(name, index, value) {
+    const item = Object.create(this.#enumItem);
+    Object.assign(item, value === Object(value)
+      ? value // Object
+      : {     // Primitive
+        [Symbol.toPrimitive](hint) {
+          return hint === 'number' ? Number(value) :
+            hint === 'string' ? name :
+              value;
+        },
+        valueOf: () => value,
+      });
+    Object.assign(item, {
+      toString: () => name,
+      toJSON: () => name,
+      index: index,
+      next: () => this[(index + 1) % this.length],
+    });
+    Object.defineProperty(this, name, {
+      value: this[index] = Object.freeze(item),
+      enumerable: false,
+    });
+  }
+
   constructor(...args) {
     super();
-    const enumItem = {};
     for (let i = args.length - 1; i > 0; --i) {
       if (typeof args[i] == 'function' && typeof args[i - 1] == 'string') {
         const pair = args.splice(i - 1, 2);
-        Object.defineProperty(enumItem, pair[0], {
-          value: pair[1],
-          enumerable: false,
-        });
+        this.#addItemMethod(pair[0], pair[1]);
         --i;
       }
     }
-    args.forEach((key, index) => {
-      let name = key;
-      let item = Object.create(enumItem);
-      const m = /^(?<name>[^:]+):\s*(?<value>[\s\S]+)$/.exec(key);
-      if (m) {
-        name = m.groups.name;
-        const tmp = JSON.parse(m.groups.value);
-        Object.assign(item, tmp === Object(tmp)
-          ? tmp // Object
-          : {   // Primitive
-            [Symbol.toPrimitive](hint) {
-              return hint === 'number' ? Number(tmp) :
-                hint === 'string' ? name :
-                  tmp;
-            },
-            valueOf: () => tmp,
-          });
+    if (args.length == 1 && args[0] === Object(args[0])) {
+      const enumItems = args[0];
+      for (const key in enumItems) {
+        if (typeof enumItems[key] == 'function') {
+          this.#addItemMethod(key, enumItems[key]);
+          delete enumItems[key];
+        }
       }
-      Object.assign(item, {
-        toString: () => name,
-        toJSON: () => name,
-        index: index,
-        next: () => this[(index + 1) % args.length],
+      Object.keys(enumItems).forEach((key, index) => {
+        this.#addItem(key, index, enumItems[key]);
       });
-      Object.defineProperty(this, name, {
-        value: this[index] = Object.freeze(item),
-        enumerable: false,
+    } else {
+      args.forEach((key, index) => {
+        this.#addItem(key, index, key);
       });
-    });
+    }
     Object.defineProperty(this, 'prototypeOfItem', {
-      get() { return enumItem },
+      get() { return this.#enumItem },
       enumerable: false,
     });
     Object.freeze(this);
