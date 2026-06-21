@@ -1,8 +1,14 @@
-﻿#Main {
+﻿#Main>div {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   column-gap: 0.5em;
   row-gap: 0.5em;
+}
+
+#Log {
+  margin: 0.5em;
+  width: 100%;
+  height: 20em;
 }
 
 .Item {
@@ -10,8 +16,17 @@
   line-height: 300%;
 }
 
-#Log {
-  margin: 0.5em;
-  width: 100%;
-  height: 10em;
+.ItemGreen {
+  border: 0.3em solid #60c060;
+  text-align: center;
+}
+
+.ItemYellow {
+  border: 0.3em dashed #c0c060;
+  text-align: left;
+}
+
+.ItemRed {
+  border: 0.3em inset #c06060;
+  text-align: right;
 }

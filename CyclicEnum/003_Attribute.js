@@ -18,7 +18,6 @@ const defGetter = () => new CyclicEnum({
 const Getter = defGetter();
 Getter.prototypeOfItem.nameAndAbility = function() { return `${this}:${this.ability()}`; };
 console.log(Getter);
-console.log(Getter.prototypeOfItem);
 elmLog.value += [
   '# Getter',
   defGetter.toString().replace('() => ', ''),
@@ -27,7 +26,7 @@ elmLog.value += [
 
 const range = (max) => Array.from({ length: max }, (_, i) => (i));
 const items = range(20).map((i) => {
-  const getter = Getter[i % Getter.length];
+  const getter = Getter.get(i % Getter.length);
   return prepareElement({
     tag: 'div',
     classes: ['Item'],
@@ -40,7 +39,7 @@ items.forEach(item => elmMain.appendChild(item));
 
 setInterval(() => {
   items.forEach(item => {
-    const getter = Getter[item.dataset.getter].next();
+    const getter = Getter.get(item.dataset.getter).next();
     item.innerHTML = getter.nameAndAbility();
     item.dataset.getter = getter;
     item.style.backgroundColor = getter.Color || '#c0c0c0';
@@ -56,6 +55,8 @@ elmLog.value += test([
   { input: () => Getter.Open == 'Open', expected: true },
   { input: () => Getter.Open.ability(), expected: '--' },
   { input: () => Getter.Open.nameAndAbility(), expected: 'Open:--' },
+  { input: () => Getter.Open.next() === Getter.Dragon, expected: true },
+  { input: () => Getter.Open.prev() === Getter.Poseidon, expected: true },
   { input: () => String(Getter.Dragon), expected: 'Dragon' },
   { input: () => isNaN(Number(Getter.Dragon)), expected: true },
   { input: () => Boolean(Getter.Dragon), expected: true },
@@ -63,6 +64,8 @@ elmLog.value += test([
   { input: () => Getter.Dragon == 'Dragon', expected: true },
   { input: () => Getter.Dragon.ability(), expected: '&#x1f9be;&#x1f9bf;' },
   { input: () => Getter.Dragon.nameAndAbility(), expected: 'Dragon:&#x1f9be;&#x1f9bf;' },
+  { input: () => Getter.Dragon.next() === Getter.Liger, expected: true },
+  { input: () => Getter.Dragon.prev() === Getter.Open, expected: true },
   { input: () => String(Getter.Liger), expected: 'Liger' },
   { input: () => isNaN(Number(Getter.Liger)), expected: true },
   { input: () => Boolean(Getter.Liger), expected: true },
@@ -70,6 +73,8 @@ elmLog.value += test([
   { input: () => Getter.Liger == 'Liger', expected: true },
   { input: () => Getter.Liger.ability(), expected: '-&#x1f9bf;' },
   { input: () => Getter.Liger.nameAndAbility(), expected: 'Liger:-&#x1f9bf;' },
+  { input: () => Getter.Liger.next() === Getter.Poseidon, expected: true },
+  { input: () => Getter.Liger.prev() === Getter.Dragon, expected: true },
   { input: () => String(Getter.Poseidon), expected: 'Poseidon' },
   { input: () => isNaN(Number(Getter.Poseidon)), expected: true },
   { input: () => Boolean(Getter.Poseidon), expected: true },
@@ -77,4 +82,6 @@ elmLog.value += test([
   { input: () => Getter.Poseidon == 'Poseidon', expected: true },
   { input: () => Getter.Poseidon.ability(), expected: '&#x1f9be;-' },
   { input: () => Getter.Poseidon.nameAndAbility(), expected: 'Poseidon:&#x1f9be;-' },
+  { input: () => Getter.Poseidon.next() === Getter.Open, expected: true },
+  { input: () => Getter.Poseidon.prev() === Getter.Liger, expected: true },
 ]);

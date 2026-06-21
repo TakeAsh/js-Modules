@@ -1,0 +1,182 @@
+﻿/* take.css */
+/* 全体の属性定義 */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+pre,
+a,
+caption,
+th,
+td,
+ul,
+ol,
+dl,
+li,
+dt,
+dd,
+blockquote {
+  line-height: 120%;
+  /* 行間隔の定義 */
+}
+
+body,
+p,
+pre,
+div,
+th,
+td,
+ul,
+ol,
+li,
+dl,
+dt,
+dd,
+code,
+tt {
+  color: #000000;
+  /* 文字色の定義 */
+}
+
+/* リンク用の属性定義 */
+a:link {
+  color: #0000ee
+}
+
+a:visited {
+  color: #551a8b
+}
+
+a:active {
+  color: #ff0000
+}
+
+a:hover {
+  color: #ff0000
+}
+
+/* タグ毎の属性定義 */
+body {
+  background: #d0d0f0;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+.hide {
+  display: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: #000000;
+  background-color: #f0f0ff;
+  font-weight: bold;
+  width: 100%;
+  border: none;
+  padding: 0.2% 0.2% 0.2% 0.2%;
+}
+
+h1 {
+  padding: 0.5% 0.5% 0.5% 0.5%;
+  font-size: 140%;
+}
+
+h2 {
+  font-size: 120%;
+}
+
+h3 {
+  font-size: 110%;
+}
+
+h4,
+h5 {
+  font-size: 100%;
+}
+
+pre {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+
+table {
+  /* margin-left: 2em; */
+  /* table-layout: fixed; */
+  overflow-wrap: break-word;
+}
+
+caption {
+  color: #7f0000;
+  font-weight: bold;
+}
+
+th {
+  background: #f0f0f0;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+}
+
+td {
+  background: #f0f0f0;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+}
+
+dt {
+  margin-top: 0.5em;
+  font-weight: bold;
+}
+
+dd {
+  margin-top: 0.2em;
+}
+
+/* タグ拡張用の属性定義 */
+.indent {
+  /* インデント用 */
+  margin-left: 2em;
+}
+
+.paper {
+  /* 引用テキスト用 */
+  background: #ffffff;
+  line-height: 100%;
+}
+
+.img {
+  /* 図版・イメージ用 */
+  margin-left: 2em;
+}
+
+/* 用途による属性定義 */
+.comment {
+  /* 本文中のコメント用 */
+  font-size: 80%;
+  margin-left: 2em;
+}
+
+.link {
+  /* リンク用 */
+  font-weight: bold;
+  text-align: center;
+}
+
+.sig {
+  /* 署名用 */
+  text-align: right;
+}
+
+.tableheader2 {
+  /* ヘッダ行 */
+  font-weight: bold;
+}
+
+.fitWidth {
+  max-width: 100%;
+}
