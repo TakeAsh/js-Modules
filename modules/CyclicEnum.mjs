@@ -1,4 +1,10 @@
-﻿class CyclicEnum extends Array {
+﻿/**
+ * Creates an Enum, and each enumItems have next() that returns next enumItem.
+ *
+ * @class CyclicEnum
+ * @extends {Array}
+ */
+class CyclicEnum extends Array {
   #enumItem = {};
 
   #initEnumItem(args) {
@@ -59,6 +65,14 @@
     });
   }
 
+  /**
+   * Creates an instance of CyclicEnum.
+   * @param {object | string[]} args
+   *  When an object, each keys will be enumItems' name, and enumItems have its value.
+   *  When string[], each items will be enumItems' name as is.
+   *  Optional pair of string and function will be common method of enumItems.
+   * @memberof CyclicEnum
+   */
   constructor(...args) {
     super();
     this.#initEnumItem(args);
@@ -87,6 +101,13 @@
 
   static get [Symbol.species]() { return Array; }
 
+  /**
+   * Get enumItem specified by key, or default (first enumItem) when key does not exist.
+   *
+   * @param {string | number} key specify enumItem
+   * @returns {enumItem}
+   * @memberof CyclicEnum
+   */
   get(key) {
     return this.hasOwnProperty(key) ?
       this[key] :
