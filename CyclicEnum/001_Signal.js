@@ -77,6 +77,10 @@ elmLog.value += test([
   { input: () => Signal.get(1) === Signal.Yellow, expected: true },
   { input: () => Signal.get(2) === Signal.Red, expected: true },
   { input: () => Signal.get(3) === Signal[0], expected: true },
+  { input: () => Signal instanceof CyclicEnum, expected: true },
+  { input: () => Signal instanceof Array, expected: true },
+  { input: () => Signal.map(x => x) instanceof CyclicEnum, expected: false },
+  { input: () => Signal.map(x => x) instanceof Array, expected: true },
 ]);
 elmLog.value += '\n';
 elmLog.value += test([
