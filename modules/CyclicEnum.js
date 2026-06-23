@@ -113,4 +113,17 @@ class CyclicEnum extends Array {
       this[key] :
       this[0];
   }
+
+  /**
+   * Check if obj is enumItem of this CyclicEnum or not.
+   *
+   * @param {*} obj
+   * @returns {boolean}
+   *  true: obj is enumItem of this CyclicEnum.
+   *  false: obj is not enumItem of this CyclicEnum.
+   * @memberof CyclicEnum
+   */
+  isChild(obj) {
+    return this.#enumItem.isPrototypeOf(obj);
+  }
 }

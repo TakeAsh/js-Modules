@@ -81,6 +81,13 @@ elmLog.value += test([
   { input: () => Signal instanceof Array, expected: true },
   { input: () => Signal.map(x => x) instanceof CyclicEnum, expected: false },
   { input: () => Signal.map(x => x) instanceof Array, expected: true },
+  { input: () => Signal.isPrototypeOf(Signal.Green), expected: false },
+  { input: () => Signal.isChild(Signal.Green), expected: true },
+  { input: () => Signal.isChild(null), expected: false },
+  { input: () => Signal.isChild(undefined), expected: false },
+  { input: () => Signal.isChild(0), expected: false },
+  { input: () => Signal.isChild({}), expected: false },
+  { input: () => Signal.includes(Signal.Green), expected: true },
 ]);
 elmLog.value += '\n';
 elmLog.value += test([
