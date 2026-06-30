@@ -6,10 +6,19 @@ const d = document;
 
 const Network = new CyclicEnum('None', 'Wifi', 'Mobile');
 const Position = new CyclicEnum('LT', 'RT', 'LB', 'RB');
+const Animal = new CyclicEnum({
+  Dog: {},
+  Cat: { Fav: 'Fish', },
+  Rabbit: { Fav: 'Cabbage', },
+  Snake: { Fav: 'Egg', },
+});
+const Favorite = new CyclicEnum('Meat', 'Fish', 'Cabbage', 'Egg');
 
 const settings = new AutoSaveConfig({
   Network: Network.Wifi,
   Position: Position.LB,
+  Animal: Animal.Cat,
+  Favorite: Favorite[0],
 }, '002_Settings');
 
 const elmLog = d.getElementById('Log');
@@ -93,6 +102,79 @@ d.getElementById('Content').appendChild(prepareElement({
                       {
                         tag: 'span',
                         textContent: p,
+                      },
+                    ],
+                  }
+                }),
+              },
+            ],
+          },
+          {
+            tag: 'fieldset',
+            children: [
+              {
+                tag: 'legend',
+                textContent: 'Animal',
+              },
+              {
+                tag: 'div',
+                children: Animal.map(a => {
+                  return {
+                    tag: 'label',
+                    children: [
+                      {
+                        tag: 'input',
+                        type: 'radio',
+                        name: 'Animal',
+                        checked: a == settings.Animal,
+                        events: {
+                          change: (ev) => {
+                            settings.Animal = a;
+                            settings.Favorite = Favorite.get(a.Fav);
+                            d.getElementById(`Fav_${settings.Favorite}`).checked = true;
+                            showLog();
+                          },
+                        },
+                      },
+                      {
+                        tag: 'span',
+                        textContent: a,
+                      },
+                    ],
+                  }
+                }),
+              },
+            ],
+          },
+          {
+            tag: 'fieldset',
+            children: [
+              {
+                tag: 'legend',
+                textContent: 'Favorite',
+              },
+              {
+                tag: 'div',
+                children: Favorite.map(f => {
+                  return {
+                    tag: 'label',
+                    children: [
+                      {
+                        tag: 'input',
+                        id: `Fav_${f}`,
+                        type: 'radio',
+                        name: 'Favorite',
+                        checked: f == settings.Favorite,
+                        events: {
+                          change: (ev) => {
+                            settings.Favorite = f;
+                            showLog();
+                          },
+                        },
+                      },
+                      {
+                        tag: 'span',
+                        textContent: f,
                       },
                     ],
                   }
