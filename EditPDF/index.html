@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit PDF</title>
+  <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+
+<body>
+  <h1>Edit PDF</h1>
+  <div id="divCommands">
+    <ol id="olConcatFiles"></ol>
+    <div id="divControlConcatPages">
+      <div id="divMessageAll">
+        <div id="divError" class="Error"></div>
+        <div id="divMessage"></div>
+      </div>
+      <input id="inputNameConcatPdf" title="Filename" placeholder="Filename" value="ConcatPdf" />
+      <span>
+        <button id="buttonConcatPages" type="button" title="Concat All Pages">&#x1F4C4;</button>
+        <button id="buttonAddConcatPages" type="button" title="Add Pages">&#x2795;</button>
+        <button id="buttonClearConcatPages" type="button" title="Drop All Pages">&#x1F5D1;</button>
+      </span>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/downloadjs/download.min.js"></script>
+  <script type="module" src="./app.js"></script>
+</body>
+
+</html>
