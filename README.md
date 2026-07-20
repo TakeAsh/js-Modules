@@ -25,6 +25,11 @@ Show Japanese holidays.
   - [003_Attribute](https://raw.githack.com/TakeAsh/js-Modules/main/CyclicEnum/003_Attribute.html)<br>each EnumItems have its own attributes and common methods.
   - [004_Primitive](https://raw.githack.com/TakeAsh/js-Modules/main/CyclicEnum/004_Primitive.html)<br>EnumItems have primitive values.
 
+## PrepareElement
+- Build HTML elements from object.
+- Sample
+  - [Edit PDF](https://raw.githack.com/TakeAsh/js-Modules/main/EditPDF/)
+
 ## Util
 
 ### getNodesByXpath()
