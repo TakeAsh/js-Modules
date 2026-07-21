@@ -140,6 +140,7 @@ export function addInputFileForConcat() {
             {
               tag: 'div',
               classes: ['preview'],
+              title: 'Drop PDF, or Click',
               children: [
                 {
                   tag: 'iframe',
@@ -151,7 +152,7 @@ export function addInputFileForConcat() {
                 {
                   tag: 'div',
                   classes: ['mask',],
-                  textContent: 'Drop PDF',
+                  textContent: 'Drop PDF, or Click',
                 },
               ],
             },

@@ -64,6 +64,7 @@ code {
 
 .preview {
   position: relative;
+  border: thin solid #000000;
 }
 
 .mask {
@@ -92,7 +93,7 @@ button {
 iframe {
   width: 98%;
   height: 40vh;
-  margin: 0.3em;
+  margin: 0.5em;
 }
 
 .hide {
