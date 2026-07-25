@@ -6,7 +6,7 @@ import {
 } from './global.js';
 import {
   maskPreview, maskPreviewAll, unmaskPreviewValid,
-  loadPdf, previewPdf, rotatePage, removePages, getNameBase,
+  loadPdf, previewPdf, rotatePage, removePages, getNameBase, extractImages,
 } from './process.js';
 
 export function winDragoverHandler(ev) {
@@ -102,6 +102,14 @@ export function addInputFileForConcat() {
                   innerHTML: '&#x2702;',
                   disabled: true,
                   events: { click: setRangeRemove, },
+                },
+                {
+                  tag: 'button',
+                  type: 'button',
+                  title: 'Extract Images',
+                  innerHTML: '&#x1F5BC;',
+                  disabled: true,
+                  events: { click: extractImagesHandler, },
                 },
                 {
                   tag: 'button',
@@ -205,6 +213,12 @@ export async function setRangeRemove(ev) {
     ? ''
     : rangeRemove;
   await previewPdf(input.dataset.name, ancestor);
+}
+
+export async function extractImagesHandler(ev) {
+  const ancestor = ev.currentTarget.parentNode.parentNode.parentNode;
+  const input = ancestor.querySelector('input[type="file"]');
+  await extractImages(input.dataset.name);
 }
 
 export function clearInputFile(ev) {

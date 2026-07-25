@@ -1,4 +1,4 @@
-export const { PDFDocument, degrees } = PDFLib;
+export const { PDFDocument, degrees, PDFRawStream, PDFName } = PDFLib;
 export const pdfs = {};
 
 export const d = document;

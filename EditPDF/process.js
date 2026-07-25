@@ -1,8 +1,11 @@
+import { sleep } from 'https://www.takeash.net/js/modules/Util.mjs';
 import {
-  PDFDocument, degrees,
+  PDFDocument, degrees, PDFRawStream, PDFName,
   pdfs,
   d, inputNameConcatPdf,
 } from './global.js';
+import { savePng } from './savePng.js';
+import { saveTiff } from './saveTiff.js';
 
 export function maskPreview(div) {
   div.classList.remove('mask_off');
@@ -110,4 +113,113 @@ export function rotatePage(page, rotation) {
 
 export function getNameBase(filename) {
   return filename.replace(/\.[^\.]+$/, '');
+}
+
+const cacheColorSpace = new Map();
+
+function getColorSpace(dict) {
+  let colorSpace = dict.get(PDFName.of("ColorSpace"));
+  if (!colorSpace) {
+    return null;
+  }
+  if (!colorSpace.tag?.match(/^\d+\s\d+\sR$/)) {
+    // Actual ColorSpace
+    return colorSpace;
+  }
+  if (cacheColorSpace.has(colorSpace)) {
+    // Cached ColorSpace
+    return cacheColorSpace.get(colorSpace);
+  }
+  // Get ColorSpace, and cache it
+  const xObj = dict.context.indirectObjects;
+  const tmpColorSpace = xObj.get(colorSpace);
+  if (tmpColorSpace) {
+    tmpColorSpace.isIndexed = tmpColorSpace.array?.[0] === PDFName.of("Indexed");
+    if (tmpColorSpace.isIndexed) {
+      const tableRaw = xObj.get(tmpColorSpace.array?.[3])?.contents;
+      tmpColorSpace.tableIndexed = [];
+      for (let i = 0; i < tableRaw.length; i += 3) {
+        tmpColorSpace.tableIndexed.push([tableRaw[i], tableRaw[i + 1], tableRaw[i + 2]]);
+      }
+    }
+    cacheColorSpace.set(colorSpace, tmpColorSpace);
+  }
+  return tmpColorSpace;
+};
+
+/**
+ * Extract Images
+ * 
+ * @see https://github.com/Hopding/pdf-lib/issues/83#issuecomment-2078087105
+ * @export
+ * @param {string} name PDF filename
+ */
+export async function extractImages(name) {
+  const pdfDoc = pdfs[name];
+  const imagesInDoc = [];
+  cacheColorSpace.clear();
+  pdfDoc.context.enumerateIndirectObjects()
+    .forEach(async ([pdfRef, pdfObject], ref) => {
+      const { dict } = pdfObject;
+      const subtype = dict?.get(PDFName.of("Subtype"));
+      if (!(pdfObject instanceof PDFRawStream) || subtype != PDFName.of("Image")) {
+        return;
+      }
+      const smaskRef = dict.get(PDFName.of("SMask"));
+      const colorSpace = getColorSpace(dict);
+      const name = dict.get(PDFName.of("Name"));
+      const width = dict.get(PDFName.of("Width"));
+      const height = dict.get(PDFName.of("Height"));
+      const bitsPerComponent = dict.get(PDFName.of("BitsPerComponent"));
+      const filter = dict.get(PDFName.of("Filter"));
+      const fileType = filter === PDFName.of("DCTDecode") ? "jpg" :
+        filter === PDFName.of("FlateDecode") ? "png" :
+          filter === PDFName.of("CCITTFaxDecode") ? "tiff" :
+            "xxx";
+
+      imagesInDoc.push({
+        pdfRef, // added, must use pdfRef to locate alpha layers
+        ref,
+        smaskRef,
+        colorSpace,
+        name: name ? name.key : `Object${ref}`,
+        width: width.numberValue,
+        height: height.numberValue,
+        bitsPerComponent: bitsPerComponent.numberValue,
+        filter: filter,
+        type: fileType,
+        data: pdfObject.contents,
+      });
+    });
+
+  // Log info about the images we found in the PDF
+  console.log(`===== ${imagesInDoc.length} Images found in PDF =====`);
+  imagesInDoc.forEach((image) => {
+    // Find and mark SMasks as alpha layers
+    if (image.type === "png" && image.smaskRef) {
+      // ref cannot match to smaskRef, must use pdfRef
+      const smaskImg = imagesInDoc.find((sm) => image.smaskRef == sm.pdfRef);
+      if (smaskImg) {
+        smaskImg.isAlphaLayer = true;
+        image.alphaLayer = smaskImg;
+      }
+    }
+  });
+
+  let index = 0;
+  for (let image of imagesInDoc) {
+    if (image.isAlphaLayer) {
+      continue;
+    }
+    await sleep(200);
+    ++index;
+    console.log(image);
+    const nameBase = getNameBase(name);
+    const imageData = image.type === "png" ? await savePng(image) :
+      image.type === "tiff" ? saveTiff(image) :
+        image.data;
+    download(imageData, `${nameBase}_${index}.${image.type}`, 'application/octet-stream');
+  };
+
+  console.log("done");
 }
